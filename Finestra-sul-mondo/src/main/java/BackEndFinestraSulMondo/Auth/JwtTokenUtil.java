@@ -40,8 +40,10 @@ public class JwtTokenUtil {
 
     // Estrae tutti i claims dal token JWT
     private Claims getAllClaimsFromToken(String token) {
-        return Jwts.parser()
+        return Jwts.parserBuilder()
                 .setSigningKey(secret)
+                .setAllowedClockSkewSeconds(60)
+                .build()
                 .parseClaimsJws(token)
                 .getBody();
     }
@@ -49,11 +51,14 @@ public class JwtTokenUtil {
     // Verifica se il token JWT è scaduto
     private Boolean isTokenExpired(String token) {
         final Date expiration = getExpirationDateFromToken(token);
-        return expiration.before(new Date());
+        Date now = new Date();
+        System.out.println("DEBUG - Server Time (UTC): " + now.toInstant());
+        System.out.println("DEBUG - Token Expiration (UTC): " + expiration.toInstant());
+        return expiration.before(now);
     }
 
     // Genera un token JWT per l'utente, includendo i ruoli
-    public String generateToken(UserDetails userDetails, String firstName, String avatar) {
+    public String generateToken(UserDetails userDetails, String firstName,String lastName, String avatar) {
         Collection<? extends GrantedAuthority> authorities = userDetails.getAuthorities();
         List<String> roles = authorities.stream()
                                         .map(GrantedAuthority::getAuthority)
@@ -62,7 +67,8 @@ public class JwtTokenUtil {
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .claim("roles", roles) // Aggiunge i ruoli come claim
-                .claim("firstName", firstName) // Aggiungi il nome dell'utente
+                .claim("firstName", firstName)
+                .claim("lastName", lastName)
                 .claim("avatar", avatar)
                 .setIssuedAt(new Date(System.currentTimeMillis()))
                 .setExpiration(new Date(System.currentTimeMillis() + jwtExpirationInMs))

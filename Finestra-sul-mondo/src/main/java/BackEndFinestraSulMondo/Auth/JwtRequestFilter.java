@@ -63,6 +63,10 @@ public class JwtRequestFilter extends OncePerRequestFilter {
             }
         }
         chain.doFilter(request, response);
+        System.out.println("=== DEBUG JWT ===");
+        System.out.println("Header Authorization: " + request.getHeader("Authorization"));
+        System.out.println("Request URI: " + request.getRequestURI());
+        System.out.println("Method: " + request.getMethod());
     }
 
     private final AntPathMatcher antPathMatcher = new AntPathMatcher();
@@ -72,6 +76,7 @@ public class JwtRequestFilter extends OncePerRequestFilter {
         String path = request.getRequestURI().substring(request.getContextPath().length());
         return EXCLUDED_URLS.stream().anyMatch(pattern -> antPathMatcher.match(pattern, path));
     }
+
 
     private static final List<String> EXCLUDED_URLS = Arrays.asList(
             "/api/public",

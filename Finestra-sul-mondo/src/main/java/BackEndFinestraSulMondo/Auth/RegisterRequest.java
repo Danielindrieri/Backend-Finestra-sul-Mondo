@@ -1,6 +1,8 @@
 package BackEndFinestraSulMondo.Auth;
 import lombok.Data;
 
+import java.util.Set;
+
 @Data
 public class RegisterRequest {
     private String username;
@@ -8,4 +10,5 @@ public class RegisterRequest {
     private String firstName;
     private String lastName;
     private String email;
+    private Set<Role> roles;
 }

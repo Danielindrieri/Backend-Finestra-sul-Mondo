@@ -39,7 +39,7 @@ public class AuthRunner implements ApplicationRunner {
         admin.setFirstName("Admin");
         admin.setLastName("Super");
         admin.setUsername("admin");
-        admin.setEmail("admin@example.com");
+        admin.setEmail("admin@gmail.com");
         admin.setPassword(passwordEncoder.encode("adminpassword123"));
         admin.setRoles(Set.of(Role.ROLE_ADMIN));
 

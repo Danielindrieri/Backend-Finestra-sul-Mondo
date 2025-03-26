@@ -64,10 +64,12 @@ public class AppUserService {
             Authentication authentication = authenticationManager.authenticate(
                     new UsernamePasswordAuthenticationToken(username, password));
 
+            System.out.println("Ruoli dell'utente: " + authentication.getAuthorities());
+
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             AppUser appUser = appUserRepository.findByUsername(username)
                     .orElseThrow(() -> new EntityNotFoundException("Utente non trovato"));
-            return jwtTokenUtil.generateToken(userDetails, appUser.getFirstName(), appUser.getAvatar());
+            return jwtTokenUtil.generateToken(userDetails, appUser.getFirstName(),appUser.getLastName(), appUser.getAvatar());
         } catch (AuthenticationException e) {
             throw new SecurityException("Credenziali non valide", e);
         }

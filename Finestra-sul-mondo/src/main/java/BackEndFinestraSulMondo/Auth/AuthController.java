@@ -24,7 +24,7 @@ public class AuthController {
                     registerRequest.getFirstName(),
                     registerRequest.getLastName(),
                     registerRequest.getEmail(),
-                    Set.of(Role.ROLE_USER)
+                    registerRequest.getRoles()
             );
             return ResponseEntity.ok("Registrazione avvenuta con successo");
         } catch (EntityExistsException e) {
@@ -34,6 +34,7 @@ public class AuthController {
         }
     }
 
+
     @PostMapping("/login")
     public ResponseEntity<AuthResponse> login(@RequestBody LoginRequest loginRequest) {
         String token = appUserService.authenticateUser(
@@ -41,5 +42,6 @@ public class AuthController {
                 loginRequest.getPassword()
         );
         return ResponseEntity.ok(new AuthResponse(token));
+
     }
 }

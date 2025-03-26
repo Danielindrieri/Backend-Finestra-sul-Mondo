@@ -2,6 +2,7 @@ package BackEndFinestraSulMondo.exception;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springdoc.api.OpenApiResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.AccessDeniedException;
