@@ -1,0 +1,4 @@
+package BackEndFinestraSulMondo.Itinerary;
+
+public class AdminItinerarioService {
+}

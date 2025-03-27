@@ -1,0 +1,27 @@
+package BackEndFinestraSulMondo.Auth;
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+
+import static org.springframework.http.CacheControl.maxAge;
+
+@Configuration
+public class CorsConfig {
+
+    @Bean
+    public WebMvcConfigurer corsConfigurer() {
+        return new WebMvcConfigurer() {
+            @Override
+            public void addCorsMappings(CorsRegistry registry) {
+                registry.addMapping("/api/**") // Consente tutte le richieste su tutti gli endpoint
+                        .allowedOrigins("http://localhost:3000") // Consente richieste solo da questo origin
+                        .allowedMethods("*") // Consente questi metodi HTTP
+                        .allowedHeaders("*")
+                        .exposedHeaders("Authorization")// Consente tutti gli header
+                        .allowCredentials(true);// Consente l'invio di credenziali
+                        .maxAge(3600);
+            }
+        };
+    }
+}
